@@ -135,7 +135,7 @@ def process_query(natural_language_query):
         )
 
     except requests.exceptions.Timeout:
-        time.sleep(5)
+        time.sleep(10)
         print("Swarm API请求超时，请稍后再试。")
 
     sql_query = clean_sql_query(response.messages[-1]["content"])
