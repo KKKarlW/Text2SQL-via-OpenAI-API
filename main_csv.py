@@ -101,20 +101,27 @@ def format_results(results, sql_query):
     headers = [description[0] for description in cursor.description]
 
     # 添加单位
-    # if 'price' in headers:
-    #     price_index = headers.index('price')
-    #     results = [list(row) for row in results]
-    #     for row in results:
-    #         row[price_index] = f"{row[price_index]}元"
+    if 'car_id' in headers:
+        price_index = headers.index('price')
+        results = [list(row) for row in results]
+        for row in results:
+            row[price_index] = f"{row[price_index]}美元"
+
+    # 添加里程单位
+    if 'car_id' in headers:
+        mileage_index = headers.index('mileage')
+        results = [list(row) for row in results]
+        for row in results:
+            row[mileage_index] = f"{row[mileage_index]}英里"
 
     formatted_results = tabulate(results, headers=headers, tablefmt="grid")
 
     # 添加结果上下文
-    # if len(results) == 1 and 'car_id' in headers and 'price' in headers:
-    #     carid_index = headers.index('car_id')
-    #     price_index = headers.index('price')
-    #     context = f"{results[0][carid_index]}的薪水是{results[0][price_index]}"
-    #     return f"{context}\n\n{formatted_results}"
+    if len(results) == 1 and 'car_id' in headers and 'price' in headers:
+        carid_index = headers.index('car_id')
+        price_index = headers.index('price')
+        context = f"{results[0][carid_index]}的价格是{results[0][price_index]}"
+        return f"{context}\n\n{formatted_results}"
 
     return formatted_results
 
